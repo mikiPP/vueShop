@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="shoppingList">
+        <table class="table" id="shoppingList">
+            <thead>
+                <tr>
+                    <th scope="col"> Name </th>
+                    <th scope="col"> Price </th>
+                    <th scope="col"> Quantity </th>
+                    <th scope="col"> Total </th>
+                    <th scope="col"> Delete </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in shoppingList">
+                    <td>
+                        {{ item.name }}
+                    </td>
+                    <td>
+                        {{ item.price }}€ X
+                    </td>
+                    <td>
+                        <input class="form-text" v-model.number="item.quantity" type="number" step="1" min="0" />
+                    </td>
+                    <td>
+                        {{ getPrice(item.quantity,item.price)}}
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-danger" v-on:click="deleteRow(index)">Elimina</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <input id="name" type="text" placeholder="Producte">
+        <input id="price" type="number" placeholder="Preu">
+
+        <button type="button" v-on:click="addItem"> Afegir </button>
+
+        <h1>
+            Despesa total: {{getTotal()}} €
+        </h1>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script>
+        const shoppingList = new Vue({
+            el: "#shoppingList",
+            data: {
+                total: 0,
+                shoppingList: [{
+                    name: "Foo",
+                    price: 20,
+                    quantity: 0
+                }, {
+                    name: "bar",
+                    price: "100",
+                    quantity: 0
+                }]
+            },
+            methods: {
+                getPrice: (value1, value2) => {
+
+                    return ` uds.= ${value1 * value2} € `
+                },
+                deleteRow: function(index) {
+
+                    this.shoppingList.splice(index, 1)
+                },
+                addItem: function addItem() {
+
+                    const item = {}
+
+                    item.name = document.getElementById("name").value
+                    item.price = document.getElementById("price").value
+                    item.quantity = 0
+
+                    this.shoppingList.push(item)
+                },
+
+                getTotal: function getTotal() {
+
+                    let total = 0
+
+                    this.shoppingList.forEach(item => {
+                        total += item.price * item.quantity
+                    });
+
+                    return total
+                }
+            }
+        });
+    </script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+
+</html>
