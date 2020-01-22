@@ -101,10 +101,12 @@
 
                     return ` uds.= ${value1 * value2} € `
                 },
+
                 deleteRow: function(index) {
 
                     this.shoppingList.splice(index, 1)
                 },
+
                 addItem: function addItem() {
 
                     const item = {}
@@ -118,13 +120,9 @@
 
                 getTotal: function getTotal() {
 
-                    let total = 0
-
-                    this.shoppingList.forEach(item => {
-                        total += item.price * item.quantity
-                    });
-
-                    return total
+                    return this.shoppingList.reduce(function(total, item) {
+                        return total + item.quantity * item.price
+                    }, 0)
                 }
             }
         });
